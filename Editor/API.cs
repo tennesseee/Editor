@@ -6,21 +6,26 @@ namespace Editor
 {
     public class API
     {
+        private readonly IFile _fileWrapper;
+
+        public API(IFile fileWrapper)
+        {
+            _fileWrapper = fileWrapper;
+        }
+
         public void CopyFileToStorage(string filePath)
         {
             try
             {
-                if (filePath == null && File.Exists(filePath))
+                if (filePath != null && _fileWrapper.CheckFileForExistence(filePath))
                 {
-                    throw new Exception("File path is not correct or file already exists");
+                    throw new Exception();
                 }
-                else
-                {
-                    string directory = Directory.GetCurrentDirectory();
-                    string newFile = Path.Combine(directory, "CreatedFile.txt");
 
-                    File.Copy(filePath, newFile);
-                }
+                string directory = Directory.GetCurrentDirectory();
+                string newFile = Path.Combine(directory, "CreatedFile.txt");
+
+                _fileWrapper.CopyFile(filePath, newFile);
             }
             catch (Exception)
             {
@@ -66,14 +71,18 @@ namespace Editor
             string textInFile = File.ReadAllText(fileName);
             string[] splitText = textInFile.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
 
-            if (splitText == null || splitText.Length == 0)
+            if (splitText == null)
             {
-                throw new Exception("Can't operate with the file");
+                throw new ArgumentNullException();
             }
-            else
+
+            if (splitText.Length == 0)
             {
-                return (string[])splitText.Where(x => x.Contains(searchText));
+                throw new ArgumentOutOfRangeException();
             }
+
+            return splitText.Where(x => x.Contains(searchText)).ToArray();
+
         }
     }
 }
