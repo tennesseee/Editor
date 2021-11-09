@@ -6,12 +6,14 @@ namespace Editor
 {
     public interface IFile
     {
-        void CopyFile(string sourceFileName, string destFileName);
+        void CopyFile(string sourceFileName, string destFileName, bool check);
 
         string ReadAllText(string fileName);
 
         bool Exists(string fileName);
 
         void WriteAllText(string fileName, string text);
+
+        bool IsNullOrWhiteSpace(string filePath);
     }
 }

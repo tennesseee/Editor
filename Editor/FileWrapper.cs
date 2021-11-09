@@ -7,9 +7,10 @@ namespace Editor
 {
     class FileWrapper : IFile
     {
-        public void CopyFile(string sourceFileName, string destFileName)
+        public void CopyFile(string sourceFileName, string destFileName, bool check)
         {
-            File.Copy(sourceFileName, destFileName);
+            check = false;
+            File.Copy(sourceFileName, destFileName, check);
         }
 
         public string ReadAllText(string fileName)
@@ -25,6 +26,11 @@ namespace Editor
         public void WriteAllText(string fileName, string text)
         {
             File.WriteAllText(fileName, text);
+        }
+
+        public bool IsNullOrWhiteSpace(string filePath)
+        {
+            return String.IsNullOrWhiteSpace(filePath);
         }
     }
 }

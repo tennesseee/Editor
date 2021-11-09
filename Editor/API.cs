@@ -7,30 +7,27 @@ namespace Editor
     public class API
     {
         private readonly IFile _fileWrapper;
+        private readonly IDirectory _directoryWrapper;
 
-        public API(IFile fileWrapper)
+        public API(IFile fileWrapper, IDirectory directoryWrapper)
         {
             _fileWrapper = fileWrapper;
+            _directoryWrapper = directoryWrapper;
         }
 
-        public void CopyFileToStorage(string filePath)
+        public void CopyFileToStorage(string filePath, string fileName)
         {
             try
             {
-                if (_fileWrapper.Exists(null))
+                if (_fileWrapper.IsNullOrWhiteSpace(filePath))
                 {
                     throw new ArgumentNullException();
                 }
 
-                if (_fileWrapper.Exists(filePath))
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
+                string directory = _directoryWrapper.GetCurrentDirectory();
+                string newFile = _directoryWrapper.Combine(directory, fileName);
 
-                string directory = Directory.GetCurrentDirectory();
-                string newFile = Path.Combine(directory, "CreatedFile.txt");
-
-                _fileWrapper.CopyFile(filePath, newFile);
+                _fileWrapper.CopyFile(filePath, newFile, false);
             }
             catch (Exception)
             {
