@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Editor
 {
@@ -67,13 +69,15 @@ namespace Editor
                 }
 
                 string textInFile = _fileWrapper.ReadAllText(fileName);
-                int counter = textInFile.Count(x => x.Equals(searchText));
-                textInFile = textInFile.Replace(searchText, replaceText);
-                _fileWrapper.WriteAllText(fileName, textInFile);
+                int counter = textInFile.Split(searchText).Count() - 1;
+                string textAfterReplacement = textInFile.Replace(searchText, replaceText);
+
+                _fileWrapper.WriteAllText(fileName, textAfterReplacement);
+
 
                 return counter;
             }
-            catch (Exception)
+             catch (Exception)
             {
 
                 throw;

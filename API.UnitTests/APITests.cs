@@ -81,6 +81,8 @@ namespace EditorTests
         public void FindAndReplaceTest_ShouldReplaceTextInFile()
         {
             int resultOfMethod = 2;
+            
+
             _fileMock
                 .Setup(f => f.IsNullOrWhiteSpace(_fileName))
                 .Returns(false);
@@ -89,8 +91,10 @@ namespace EditorTests
                 .Setup(f => f.ReadAllText(_fileName))
                 .Returns(_textFromFile);
 
+            string replacedText = _textFromFile.Replace(_searchText, _replaceText);
+
             _fileMock
-                .Setup(f => f.WriteAllText(_fileName, _textFromFile));
+                .Setup(f => f.WriteAllText(_fileName, replacedText));
 
             Assert.AreEqual(resultOfMethod, _api.FindAndReplace(_fileName, _searchText, _replaceText));
         }
