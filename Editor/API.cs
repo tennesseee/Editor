@@ -66,12 +66,12 @@ namespace Editor
                     throw new ArgumentNullException();
                 }
 
-
                 string textInFile = _fileWrapper.ReadAllText(fileName);
+                int counter = textInFile.Count(x => x.Equals(searchText));
                 textInFile = textInFile.Replace(searchText, replaceText);
                 _fileWrapper.WriteAllText(fileName, textInFile);
 
-                return textInFile.Split(searchText).Count();
+                return counter;
             }
             catch (Exception)
             {
@@ -96,7 +96,6 @@ namespace Editor
             }
 
             return splitText.Where(x => x.Contains(searchText)).ToArray();
-
         }
     }
 }

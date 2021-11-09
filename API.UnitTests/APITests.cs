@@ -14,9 +14,10 @@ namespace EditorTests
         private readonly string _fileName = "name";
         private readonly string _filePath = "/path";
         private readonly string _directory = "/directory";        
-        private readonly string _searchText = "a";
+        private readonly string _searchText = "e";
         private readonly string _replaceText = "b";
         private readonly string _newFile = "sad";
+        private readonly string _textFromFile = "some text";
 
         [SetUp]
         public void Setup()
@@ -79,17 +80,19 @@ namespace EditorTests
         [Test]
         public void FindAndReplaceTest_ShouldReplaceTextInFile()
         {
+            int resultOfMethod = 2;
             _fileMock
                 .Setup(f => f.IsNullOrWhiteSpace(_fileName))
                 .Returns(false);
 
             _fileMock
-                .Setup(f => f.ReadAllText(_fileName));
+                .Setup(f => f.ReadAllText(_fileName))
+                .Returns(_textFromFile);
 
             _fileMock
-                .Setup(f => f.WriteAllText(_fileName, "text"));
+                .Setup(f => f.WriteAllText(_fileName, _textFromFile));
 
-            _api.FindAndReplace(_fileName, _searchText, _replaceText);
+            Assert.AreEqual(resultOfMethod, _api.FindAndReplace(_fileName, _searchText, _replaceText));
         }
 
         [Test]
@@ -105,7 +108,7 @@ namespace EditorTests
                 .Setup(f => f.GetFiles(_directory, "*.txt"))
                 .Returns(filesArray);
 
-            _api.GetFileNamesInStorage();
+            Assert.That(filesArray, Is.EqualTo(_api.GetFileNamesInStorage()));
         }
     }
 }
