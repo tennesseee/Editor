@@ -25,7 +25,7 @@ namespace Editor
                 {
                     throw new ArgumentNullException();
                 }
-                
+
                 string directory = _directoryWrapper.GetCurrentDirectory();
                 string newFile = _directoryWrapper.Combine(directory, fileName);
 
@@ -45,11 +45,11 @@ namespace Editor
                 string directory = _directoryWrapper.GetCurrentDirectory();
                 string[] files = _directoryWrapper.GetFiles(directory, "*.txt");
 
-                if (files == null)
+                if (files == null || files.Length == 0)
                 {
                     throw new ArgumentNullException();
                 }
-                
+
                 return files;
             }
             catch (Exception)
@@ -77,7 +77,7 @@ namespace Editor
 
                 return counter;
             }
-             catch (Exception)
+            catch (Exception)
             {
 
                 throw;
@@ -89,17 +89,14 @@ namespace Editor
             string textInFile = _fileWrapper.ReadAllText(fileName);
             string[] splitText = textInFile.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
 
-            if (splitText == null)
+            if (splitText == null || splitText.Length == 0)
             {
                 throw new ArgumentNullException();
             }
 
-            if (splitText.Length == 0)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
+            string[] v = splitText.Where(x => x.Contains(searchText)).ToArray();
 
-            return splitText.Where(x => x.Contains(searchText)).ToArray();
+            return v;
         }
     }
 }

@@ -17,7 +17,8 @@ namespace EditorTests
         private readonly string _searchText = "e";
         private readonly string _replaceText = "b";
         private readonly string _newFile = "sad";
-        private readonly string _textFromFile = "some text";
+        private readonly string _textFromFile = "some text\r\n asd";
+        private readonly string[] _filesArray = new[] { "asd", "sad" };
 
         [SetUp]
         public void Setup()
@@ -101,18 +102,29 @@ namespace EditorTests
 
         [Test]
         public void GetFilesNamesInStorage_ShouldReturnFilesFromStorage()
-        {
-            string[] filesArray = new[] { "asd", "sad" };
-
+        { 
             _directoryMock
                 .Setup(f => f.GetCurrentDirectory())
                 .Returns(_directory);
 
             _directoryMock
                 .Setup(f => f.GetFiles(_directory, "*.txt"))
-                .Returns(filesArray);
+                .Returns(_filesArray);
 
-            Assert.That(filesArray, Is.EqualTo(_api.GetFileNamesInStorage()));
+            Assert.That(_filesArray, Is.EqualTo(_api.GetFileNamesInStorage()));
+        }
+
+        [Test]
+        public void SearchParagraphsTest_ShouldReturnArrayOfParagraphs()
+        {
+            string[] resultOfMethodCall = new[] { "some text" };
+            string[] splitedText = _textFromFile.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
+
+            _fileMock
+                .Setup(f => f.ReadAllText(_fileName))
+                .Returns(_textFromFile);
+
+            Assert.That(resultOfMethodCall, Is.EqualTo(_api.SearchParagraphs(_fileName, _searchText)));
         }
     }
 }
