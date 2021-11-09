@@ -23,7 +23,7 @@ namespace Editor
                 {
                     throw new ArgumentNullException();
                 }
-
+                
                 string directory = _directoryWrapper.GetCurrentDirectory();
                 string newFile = _directoryWrapper.Combine(directory, fileName);
 
@@ -40,8 +40,8 @@ namespace Editor
         {
             try
             {
-                string directory = Directory.GetCurrentDirectory();
-                string[] files = Directory.GetFiles(directory, "*.txt");
+                string directory = _directoryWrapper.GetCurrentDirectory();
+                string[] files = _directoryWrapper.GetFiles(directory, "*.txt");
 
                 if (files == null)
                 {
@@ -49,7 +49,6 @@ namespace Editor
                 }
                 
                 return files;
-
             }
             catch (Exception)
             {
@@ -60,11 +59,25 @@ namespace Editor
 
         public int FindAndReplace(string fileName, string searchText, string replaceText)
         {
-            string textInFile = _fileWrapper.ReadAllText(fileName);
-            textInFile = textInFile.Replace(searchText, replaceText);
-            _fileWrapper.WriteAllText(fileName, textInFile);
+            try
+            {
+                if (_fileWrapper.IsNullOrWhiteSpace(fileName))
+                {
+                    throw new ArgumentNullException();
+                }
 
-            return textInFile.Replace(searchText, replaceText).Count();
+
+                string textInFile = _fileWrapper.ReadAllText(fileName);
+                textInFile = textInFile.Replace(searchText, replaceText);
+                _fileWrapper.WriteAllText(fileName, textInFile);
+
+                return textInFile.Split(searchText).Count();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public string[] SearchParagraphs(string fileName, string searchText)
