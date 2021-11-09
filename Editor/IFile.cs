@@ -8,8 +8,10 @@ namespace Editor
     {
         void CopyFile(string sourceFileName, string destFileName);
 
-        void ReadTextFromFile(string fileName);
+        string ReadAllText(string fileName);
 
-        bool CheckFileForExistence(string fileName);
+        bool Exists(string fileName);
+
+        void WriteAllText(string fileName, string text);
     }
 }

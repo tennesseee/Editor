@@ -24,20 +24,32 @@ namespace EditorTests
         }
         
         [Test]
-        public void CopyFileToStorageTest_ShouldThrowException()
+        public void CopyFileToStorageTestWithInvalidPath_ShouldThrowException()
         {
             // Arrange
             const string filePath = "asssda";
             _fileMock
-                .Setup(f => f.CheckFileForExistence(filePath))
-                .Returns(false);
+                .Setup(f => f.Exists(filePath))
+                .Returns(true);
 
             // Assert
-            Assert.That(() => _api.CopyFileToStorage(filePath), Throws.TypeOf<Exception>());
+            Assert.That(() => _api.CopyFileToStorage(filePath), Throws.TypeOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
+        public void CopyFileToStorageTestWithNull_ShouldThrowException()
+        {
+            // Arrange
+            _fileMock
+                .Setup(f => f.Exists(null))
+                .Returns(true);
+
+            // Assert
+            Assert.That(() => _api.CopyFileToStorage(null), Throws.TypeOf<ArgumentNullException>());
         }
 
 
 
-         
+
     }
 }

@@ -12,14 +12,19 @@ namespace Editor
             File.Copy(sourceFileName, destFileName);
         }
 
-        public void ReadTextFromFile(string fileName)
+        public string ReadAllText(string fileName)
         {
-            File.ReadAllText(fileName);
+            return File.ReadAllText(fileName);
         }
 
-        public bool CheckFileForExistence(string fileName)
+        public bool Exists(string fileName)
         {
             return File.Exists(fileName);
+        }
+
+        public void WriteAllText(string fileName, string text)
+        {
+            File.WriteAllText(fileName, text);
         }
     }
 }

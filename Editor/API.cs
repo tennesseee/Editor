@@ -17,9 +17,14 @@ namespace Editor
         {
             try
             {
-                if (filePath != null && _fileWrapper.CheckFileForExistence(filePath))
+                if (_fileWrapper.Exists(null))
                 {
-                    throw new Exception();
+                    throw new ArgumentNullException();
+                }
+
+                if (_fileWrapper.Exists(filePath))
+                {
+                    throw new ArgumentOutOfRangeException();
                 }
 
                 string directory = Directory.GetCurrentDirectory();
@@ -41,14 +46,13 @@ namespace Editor
                 string directory = Directory.GetCurrentDirectory();
                 string[] files = Directory.GetFiles(directory, "*.txt");
 
-                if (files == null || files.Length == 0)
+                if (files == null)
                 {
-                    throw new Exception("There is no valid files in the storage/directory");
+                    throw new ArgumentNullException();
                 }
-                else
-                {
-                    return files;
-                }
+                
+                return files;
+
             }
             catch (Exception)
             {
@@ -59,16 +63,16 @@ namespace Editor
 
         public int FindAndReplace(string fileName, string searchText, string replaceText)
         {
-            string textInFile = File.ReadAllText(fileName);
+            string textInFile = _fileWrapper.ReadAllText(fileName);
             textInFile = textInFile.Replace(searchText, replaceText);
-            File.WriteAllText(fileName, textInFile);
+            _fileWrapper.WriteAllText(fileName, textInFile);
 
             return textInFile.Replace(searchText, replaceText).Count();
         }
 
         public string[] SearchParagraphs(string fileName, string searchText)
         {
-            string textInFile = File.ReadAllText(fileName);
+            string textInFile = _fileWrapper.ReadAllText(fileName);
             string[] splitText = textInFile.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
 
             if (splitText == null)
