@@ -6,7 +6,7 @@ using System.IO;
 
 namespace EditorTests
 {
-    public class Tests
+    public class APIUnitTests
     {
         private Mock<IFile> _fileMock;
         private API _api;
@@ -17,7 +17,7 @@ namespace EditorTests
         private readonly string _searchText = "e";
         private readonly string _replaceText = "b";
         private readonly string _newFile = "sad";
-        private readonly string _textFromFile = "some text\r\n asd";
+        private readonly string _textFromFile = "some text\r\n mock";
         private readonly string[] _filesArray = new[] { "asd", "sad" };
 
         [SetUp]
@@ -83,7 +83,6 @@ namespace EditorTests
         {
             int resultOfMethod = 2;
             
-
             _fileMock
                 .Setup(f => f.IsNullOrWhiteSpace(_fileName))
                 .Returns(false);

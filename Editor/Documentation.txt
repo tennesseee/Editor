@@ -1,1 +1,30 @@
-﻿
+﻿Editor API: API to manipulate with text files and data from files.
+
+There is four methods presented in the application:
+
+void CopyFileToStorage(string filePath, string fileName) - this method copies file from the given path to a folder of the current process.
+Method accepts two parameters:
+	1. filePath - string representation of file's path that will be copied;
+	2. fileName - name of the file that will be created.
+Exceptions: 
+	ArgumentIsNullException() if given filepath is null or empty.
+
+string[] GetFileNamesInStorag() - method retrives files with .txt extension from the folder of the process.
+No parameters needed.
+Methods returns array of strings with file names from the dirrectory.
+
+int FindAndReplace(string fileName, string searchText, string replaceText) - reads data from the text file, replaces text from a file with a given text,
+rewrites the text in a file and returns the number of times replace was implemented.
+Parameters: 
+	1. fileName - file that method operates on;
+	2. searchText - text that has to be replaced;
+	3. replaceText - text that has to be replaced with.
+Returns:
+	number of times replace of the text was made.
+
+string[] SearchParagraphs(string fileName, string searchText) - reads data from a file, finds paragraphs that contains given text.
+Parameters:
+	1. fileName - file with text;
+	2. searchText - text filter for a method.
+Returns:
+	Array of paragraphs that has searchText in it.

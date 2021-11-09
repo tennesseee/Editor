@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Editor
 {
-    class FileWrapper : IFile
+    public class FileWrapper : IFile
     {
         public void CopyFile(string sourceFileName, string destFileName, bool check)
         {

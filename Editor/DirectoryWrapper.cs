@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Editor
 {
-    class DirectoryWrapper : IDirectory
+    public class DirectoryWrapper : IDirectory
     {
         public string Combine(string dirName, string fileName)
         {

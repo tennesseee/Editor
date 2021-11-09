@@ -17,6 +17,10 @@ namespace Editor
             _directoryWrapper = directoryWrapper;
         }
 
+        public API()
+        {
+        }
+
         public void CopyFileToStorage(string filePath, string fileName)
         {
             try
@@ -74,7 +78,6 @@ namespace Editor
 
                 _fileWrapper.WriteAllText(fileName, textAfterReplacement);
 
-
                 return counter;
             }
             catch (Exception)
@@ -94,9 +97,7 @@ namespace Editor
                 throw new ArgumentNullException();
             }
 
-            string[] v = splitText.Where(x => x.Contains(searchText)).ToArray();
-
-            return v;
+            return splitText.Where(x => x.Contains(searchText)).ToArray();
         }
     }
 }
