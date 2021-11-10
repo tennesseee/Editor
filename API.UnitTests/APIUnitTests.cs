@@ -81,7 +81,7 @@ namespace EditorTests
         [Test]
         public void FindAndReplaceTest_ShouldReplaceTextInFile()
         {
-            int resultOfMethod = 2;
+            int expectedResult = 2;
             
             _fileMock
                 .Setup(f => f.IsNullOrWhiteSpace(_fileName))
@@ -96,7 +96,9 @@ namespace EditorTests
             _fileMock
                 .Setup(f => f.WriteAllText(_fileName, replacedText));
 
-            Assert.AreEqual(resultOfMethod, _api.FindAndReplace(_fileName, _searchText, _replaceText));
+            int result = _api.FindAndReplace(_fileName, _searchText, _replaceText);
+
+            Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
@@ -110,20 +112,24 @@ namespace EditorTests
                 .Setup(f => f.GetFiles(_directory, "*.txt"))
                 .Returns(_filesArray);
 
-            Assert.That(_filesArray, Is.EqualTo(_api.GetFileNamesInStorage()));
+            string[] resultOfAMethod = _api.GetFileNamesInStorage();
+
+            Assert.That(_filesArray, Is.EqualTo(resultOfAMethod));
         }
 
         [Test]
         public void SearchParagraphsTest_ShouldReturnArrayOfParagraphs()
         {
-            string[] resultOfMethodCall = new[] { "some text" };
+            string[] expectedResult = new[] { "some text" };
             string[] splitedText = _textFromFile.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
 
             _fileMock
                 .Setup(f => f.ReadAllText(_fileName))
                 .Returns(_textFromFile);
 
-            Assert.That(resultOfMethodCall, Is.EqualTo(_api.SearchParagraphs(_fileName, _searchText)));
+            string[] result = _api.SearchParagraphs(_fileName, _searchText);
+
+            Assert.That(expectedResult, Is.EqualTo(result));
         }
     }
 }
